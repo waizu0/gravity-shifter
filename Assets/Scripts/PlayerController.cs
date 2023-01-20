@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     public float gravityChangeSpeed = 1f; //Speed to change the gravity
     public Animator _camAnimator; //Animator of camera gameobj
+    public Animator playerAnimator;
 
 
     void Start()
@@ -30,6 +31,18 @@ public class PlayerController : MonoBehaviour
     {
         float moveX = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
+
+        playerAnimator.SetBool("Jumping", isJumping);
+
+        if(moveX != 0)
+        {
+            playerAnimator.SetBool("Walking", true);
+        }
+        else
+        {
+            playerAnimator.SetBool("Walking", false);
+        }
+
 
         // Check if the jump button is pressed
         if (Input.GetButtonDown("Jump"))
@@ -63,6 +76,19 @@ public class PlayerController : MonoBehaviour
                 isOnRoof = false;
                 _camAnimator.Play("ShiftRoof", -1, 0f);
             }
+        }
+
+
+
+
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            this.transform.localScale = new Vector3(-1f, this.transform.localScale.y, this.transform.localScale.z);
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            this.transform.localScale = new Vector3(1f, this.transform.localScale.y, this.transform.localScale.z);
         }
     }
 
