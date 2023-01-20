@@ -135,8 +135,9 @@ GameObject:
   - component: {fileID: 1420047716}
   - component: {fileID: 1420047715}
   - component: {fileID: 1420047714}
+  - component: {fileID: 1420047718}
   m_Layer: 0
-  m_Name: Square (3)
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -255,6 +256,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1420047718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420047713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3646b29d2243f1c4d9aea15a2ae1fdb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  jumpForce: 5
+  doubleJumpForce: 4
+  health: 100
+  canDoubleJump: 0
 --- !u!1 &1734161760
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,8 +285,8 @@ GameObject:
   - component: {fileID: 1734161762}
   - component: {fileID: 1734161761}
   m_Layer: 0
-  m_Name: Square
-  m_TagString: Untagged
+  m_Name: Floor
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -376,8 +394,8 @@ GameObject:
   - component: {fileID: 2011584151}
   - component: {fileID: 2011584150}
   - component: {fileID: 2011584149}
-  m_Layer: 0
-  m_Name: Square (1)
+  m_Layer: 6
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -486,8 +504,8 @@ GameObject:
   - component: {fileID: 2048048031}
   - component: {fileID: 2048048030}
   - component: {fileID: 2048048029}
-  m_Layer: 0
-  m_Name: Square (2)
+  m_Layer: 6
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -597,6 +615,7 @@ GameObject:
   - component: {fileID: 2144187526}
   - component: {fileID: 2144187525}
   - component: {fileID: 2144187524}
+  - component: {fileID: 2144187528}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -701,3 +720,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2144187528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144187523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18092a0a5cd0a504cb24c4063c4e8aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1420047717}
+  smoothSpeed: 0.125
+  offset: {x: 0, y: 0, z: 0}
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 64
