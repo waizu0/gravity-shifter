@@ -8,52 +8,72 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
     public float doubleJumpForce = 2.5f;
-
-    // Variables for player health
     public float health = 100f;
     public bool canDoubleJump = false;
 
-    // Reference to player's Rigidbody2D component
     private Rigidbody2D rb;
-    private bool isJumping = false;
+    public bool isJumping = false;
+    private bool isOnRoof = false;
+
+    public float gravityChangeSpeed = 1f; //Speed to change the gravity
+    public Animator _camAnimator; //Animator of camera gameobj
+
 
     void Start()
     {
-        // Get the reference of the player's Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
+        Physics2D.gravity = new Vector2(0f, -9.8f * gravityChangeSpeed);
+        isOnRoof = true;
     }
 
     void Update()
     {
-        // Get horizontal input and set player's velocity
         float moveX = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
 
         // Check if the jump button is pressed
         if (Input.GetButtonDown("Jump"))
         {
-            // Check if the player is on the ground
             if (!isJumping)
             {
-                // Add jump force to the player's Rigidbody2D
                 rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
                 isJumping = true;
             }
-            // Check if the player can perform double jump
             else if (canDoubleJump)
             {
-                // Add double jump force to the player's Rigidbody2D
                 rb.AddForce(new Vector2(0f, doubleJumpForce), ForceMode2D.Impulse);
                 canDoubleJump = false;
             }
         }
+
+        // Check if the "Z" button is pressed
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (!isOnRoof)
+            {
+                // Change gravity and switch to roof
+                Physics2D.gravity = new Vector2(0f, -9.8f * gravityChangeSpeed);
+                isOnRoof = true;
+                _camAnimator.Play("ShiftFloor", -1, 0f);
+            }
+            else
+            {
+                // Change gravity and switch to ground
+                Physics2D.gravity = new Vector2(0f, 9.8f * gravityChangeSpeed);
+                isOnRoof = false;
+                _camAnimator.Play("ShiftRoof", -1, 0f);
+            }
+        }
     }
 
-    // Check for collision with the ground
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if the player is colliding with the ground
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") && !isOnRoof)
+        {
+            isJumping = false;
+            canDoubleJump = true;
+        }
+        else if (collision.gameObject.CompareTag("Roof") && isOnRoof)
         {
             isJumping = false;
             canDoubleJump = true;
@@ -73,6 +93,6 @@ public class PlayerController : MonoBehaviour
     // Function for player death
     private void Die()
     {
-        //Blah Blah Blah
+        // Code for death
     }
-}
+    }
