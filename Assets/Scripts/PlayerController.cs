@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     public float _gravityChangeSpeed = 6f;
     public Animator _camAnimator;
     Animator thisAnim;
+    private float oldPos;
+
+
 
     void Start()
     {
@@ -24,13 +27,22 @@ public class PlayerController : MonoBehaviour
         Physics2D.gravity = new Vector2(0f, -9.8f * _gravityChangeSpeed);
         isOnRoof = false;
         thisAnim = GetComponent<Animator>();
+        oldPos = transform.position.x;
+
     }
 
     void Update()
     {
+
+        oldPos = transform.position.x;
+
         float moveX = Input.GetAxis("Horizontal");
 
         thisAnim.SetBool("Jumping", isJumping);
+        bool isWalking = Mathf.Abs(moveX) > 0.1f && Mathf.Abs(rb.velocity.x) > 0.1f;
+        thisAnim.SetBool("Walking", isWalking);
+
+
 
         if (isOnRoof)
         {
