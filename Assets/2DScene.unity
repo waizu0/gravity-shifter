@@ -490,7 +490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &860130502
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -824,6 +824,7 @@ MonoBehaviour:
   isOnRoof: 0
   _gravityChangeSpeed: 6
   _camAnimator: {fileID: 2144187529}
+  healthSlider: {fileID: 2034515735}
 --- !u!95 &1420047719
 Animator:
   serializedVersion: 3
@@ -1359,7 +1360,7 @@ GameObject:
   - component: {fileID: 2011584152}
   m_Layer: 6
   m_Name: Wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1562,9 +1563,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 358384275}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

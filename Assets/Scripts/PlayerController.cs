@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class PlayerController : MonoBehaviour
     public Animator _camAnimator;
     Animator thisAnim;
     private float oldPos;
-
+    public Slider healthSlider;
 
 
     void Start()
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
+        healthSlider.value = health;
         if (health <= 0)
         {
             Die();
