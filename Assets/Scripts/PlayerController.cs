@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public float doubleJumpForce = 2.5f;
     public float health = 100f;
     public bool canDoubleJump = false;
-    public bool facingRight = true; // new line to fix shooting
+
     private Rigidbody2D rb;
     private bool isJumping = false;
     public bool isOnRoof = false;
@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public Animator _camAnimator;
     Animator thisAnim;
     private float oldPos;
+
+
 
     void Start()
     {
@@ -32,6 +34,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+        if (health <= 0)
+        {
+            Die();
+        }
+
         oldPos = transform.position.x;
 
         float moveX = Input.GetAxis("Horizontal");
@@ -39,6 +46,8 @@ public class PlayerController : MonoBehaviour
         thisAnim.SetBool("Jumping", isJumping);
         bool isWalking = Mathf.Abs(moveX) > 0.1f && Mathf.Abs(rb.velocity.x) > 0.1f;
         thisAnim.SetBool("Walking", isWalking);
+
+
 
         if (isOnRoof)
         {
@@ -93,27 +102,51 @@ public class PlayerController : MonoBehaviour
                 transform.Rotate(180f, 0f, 0f);
                 isOnRoof = false;
                 _camAnimator.Play("ShiftFloor", -1, 0f);
+
             }
         }
-        if (Input.GetKeyDown(KeyCode.A) && !isOnRoof)
+
+        if(Input.GetKeyDown(KeyCode.A) && !isOnRoof)
         {
             this.transform.localScale = new Vector3(-1, this.transform.localScale.y, this.transform.localScale.z);
-            facingRight = false; // adicionado essa linha
         }
         if (Input.GetKeyDown(KeyCode.D) && !isOnRoof)
         {
             this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
-            facingRight = true; // adicionado essa linha
+        }
+
+        if (Input.GetKeyDown(KeyCode.A) && isOnRoof)
+        {
+            this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
+        }
+        if (Input.GetKeyDown(KeyCode.D) && isOnRoof)
+        {
+            this.transform.localScale = new Vector3(-1, this.transform.localScale.y, this.transform.localScale.z);
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") && !isOnRoof)
+        {
+            isJumping = false;
+            canDoubleJump = true;
+        }
+        else if (collision.gameObject.CompareTag("Roof") && isOnRoof)
         {
             isJumping = false;
             canDoubleJump = true;
         }
     }
-}
 
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        thisAnim.Play("Damage", -1, 0f);
+    }
+
+    private void Die()
+    {
+        // Code for death
+    }
+}
