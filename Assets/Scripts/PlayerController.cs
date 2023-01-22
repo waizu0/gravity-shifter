@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.A) && !isOnRoof)
+        if (Input.GetKeyDown(KeyCode.A) && !isOnRoof)
         {
             this.transform.localScale = new Vector3(-1, this.transform.localScale.y, this.transform.localScale.z);
         }
