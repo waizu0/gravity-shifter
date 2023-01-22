@@ -5,7 +5,6 @@ using UnityEngine;
 public class GunController : MonoBehaviour
 {
     public GameObject bulletPrefab;
-    public float bulletSpeed = 20f;
     public float cooldown = 0.5f;
     public int poolSize = 1;
     private List<GameObject> bulletPool;
