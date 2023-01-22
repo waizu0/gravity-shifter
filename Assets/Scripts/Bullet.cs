@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
             transform.Translate(Vector2.right * Time.deltaTime * speed);
         }
 
-
+ 
     }
 
     // Function to disable the game object
@@ -48,6 +48,9 @@ public class Bullet : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        disableMe();
+    }
 }
 

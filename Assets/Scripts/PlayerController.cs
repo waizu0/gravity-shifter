@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     Animator thisAnim;
     private float oldPos;
     public Slider healthSlider;
+    public Camera cam;
 
 
     void Start()
@@ -34,6 +35,18 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Vector3 screenPos = cam.WorldToScreenPoint(transform.position);
+        if (Input.mousePosition.x < screenPos.x)
+        {
+            this.transform.localScale = new Vector3(-1, this.transform.localScale.y, this.transform.localScale.z);
+        }
+        else
+        {
+            this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
+        }
+
+
+
         healthSlider.value = health;
         if (health <= 0)
         {
@@ -50,10 +63,10 @@ public class PlayerController : MonoBehaviour
 
 
 
-        if (isOnRoof)
-        {
-            moveX = moveX * -1;
-        }
+        //if (isOnRoof)
+        //{
+        //    moveX = moveX * -1;
+        //}
         rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
 
         // Check if the jump button is pressed
@@ -116,14 +129,14 @@ public class PlayerController : MonoBehaviour
             this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
         }
 
-        if (Input.GetKeyDown(KeyCode.A) && isOnRoof)
-        {
-            this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
-        }
-        if (Input.GetKeyDown(KeyCode.D) && isOnRoof)
-        {
-            this.transform.localScale = new Vector3(-1, this.transform.localScale.y, this.transform.localScale.z);
-        }
+        //if (Input.GetKeyDown(KeyCode.A) && isOnRoof)
+        //{
+        //    this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
+        //}
+        //if (Input.GetKeyDown(KeyCode.D) && isOnRoof)
+        //{
+        //    this.transform.localScale = new Vector3(-1, this.transform.localScale.y, this.transform.localScale.z);
+        //}
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -137,6 +150,27 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = false;
             canDoubleJump = true;
+        }
+
+        if (collision.gameObject.tag == "Prop")
+        {
+            if (transform.position.y > collision.gameObject.transform.position.y)
+            {
+                Rigidbody2D propRb = collision.gameObject.GetComponent<Rigidbody2D>();
+                propRb.constraints = RigidbodyConstraints2D.None;
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Prop")
+        {
+            if (transform.position.y > collision.gameObject.transform.position.y)
+            {
+                Rigidbody2D propRb = collision.gameObject.GetComponent<Rigidbody2D>();
+                propRb.constraints = RigidbodyConstraints2D.FreezeAll;
+            }
         }
     }
 
