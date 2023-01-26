@@ -8,11 +8,19 @@ public class Bullet : MonoBehaviour
     private static Transform player;
     private float playerXLocal;
     public int damage;
+    public Camera cam;
+    Renderer renderer;
 
+    private void Awake()
+    {
+        cam = GameObject.Find("Camera").GetComponent<Camera>();
+        renderer = GetComponent<Renderer>();
+    }
 
     // OnEnable is called when the object is enabled
     void OnEnable()
     {
+
         // Check if player is already stored
         if (player == null)
         {
@@ -31,20 +39,15 @@ public class Bullet : MonoBehaviour
             // Move the bullet to the left
             transform.Translate(Vector3.left * Time.deltaTime * speed, Space.World);
         }
-        // Check if the player is facing right]
+        // Check if the player is facing right
         else if (playerXLocal == 1)
         {
             // Move the bullet to the right
             transform.Translate(Vector3.right * Time.deltaTime * speed, Space.World);
         }
 
-        // Check if the bullet is out of the screen
-        Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-        if (transform.position.x > screenBounds.x || transform.position.x < -screenBounds.x ||
-            transform.position.y > screenBounds.y || transform.position.y < -screenBounds.y)
-        {
-            disableMe();
-        }
+        if (!renderer.isVisible)
+            this.gameObject.SetActive(false);
     }
 
     // Function to disable the game object
