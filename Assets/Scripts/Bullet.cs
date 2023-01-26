@@ -7,6 +7,8 @@ public class Bullet : MonoBehaviour
     public float speed = 10f; // The speed of the bullet
     private static Transform player;
     private float playerXLocal;
+    public int damage;
+
 
     // OnEnable is called when the object is enabled
     void OnEnable()

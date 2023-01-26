@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
     public float doubleJumpForce = 2.5f;
-    public float health = 100f;
     public bool canDoubleJump = false;
 
     private Rigidbody2D rb;
@@ -19,8 +18,8 @@ public class PlayerController : MonoBehaviour
     public Animator _camAnimator;
     Animator thisAnim;
     private float oldPos;
-    public Slider healthSlider;
     public Camera cam;
+    public GameObject blood;
 
 
     void Start()
@@ -45,13 +44,6 @@ public class PlayerController : MonoBehaviour
             this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
         }
 
-
-
-        healthSlider.value = health;
-        if (health <= 0)
-        {
-            Die();
-        }
 
         oldPos = transform.position.x;
 
@@ -137,6 +129,11 @@ public class PlayerController : MonoBehaviour
         //{
         //    this.transform.localScale = new Vector3(-1, this.transform.localScale.y, this.transform.localScale.z);
         //}
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Die();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -174,14 +171,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    public void Die()
     {
-        health -= damage;
-        thisAnim.Play("Damage", -1, 0f);
-    }
+        this.gameObject.SetActive(false);
 
-    private void Die()
-    {
-        // Code for death
+        GameObject bloodInstance = Instantiate(blood, transform.position, Quaternion.identity);
+
     }
 }
+    

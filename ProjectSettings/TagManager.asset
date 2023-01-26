@@ -8,6 +8,7 @@ TagManager:
   - Roof
   - Wall
   - Prop
+  - Laser
   layers:
   - Default
   - TransparentFX
