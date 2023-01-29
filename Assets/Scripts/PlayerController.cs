@@ -20,8 +20,10 @@ public class PlayerController : MonoBehaviour
     private float oldPos;
     public Camera cam;
     public GameObject blood;
-    public AudioSource _audioSourcePlayer;
-    public AudioClip _jumpAudioClip;
+    public ParticleSystem dust;
+    bool _isPlayingDust;
+    public bool isMoving;
+
 
 
     void Start()
@@ -36,6 +38,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        isMoving = Mathf.Abs(rb.velocity.x) > 0.1f;
+
         Vector3 screenPos = cam.WorldToScreenPoint(transform.position);
         if (Input.mousePosition.x < screenPos.x)
         {
@@ -44,6 +48,20 @@ public class PlayerController : MonoBehaviour
         else
         {
             this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
+        }
+
+        if (isMoving)
+        {
+            if (!_isPlayingDust)
+            {
+                dust.Play();
+                _isPlayingDust = true;
+            }
+        }
+        else if (_isPlayingDust)
+        {
+            dust.Stop();
+            _isPlayingDust = false;
         }
 
 
@@ -68,8 +86,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!isJumping)
             {
-                _audioSourcePlayer.clip = _jumpAudioClip;
-                _audioSourcePlayer.Play(1);
+                dust.Play();
                 if (isOnRoof)
                 {
                     rb.AddForce(new Vector2(0f, -jumpForce), ForceMode2D.Impulse);
