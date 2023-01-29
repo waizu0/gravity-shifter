@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     private float oldPos;
     public Camera cam;
     public GameObject blood;
+    public AudioSource _audioSourcePlayer;
+    public AudioClip _jumpAudioClip;
 
 
     void Start()
@@ -66,6 +68,8 @@ public class PlayerController : MonoBehaviour
         {
             if (!isJumping)
             {
+                _audioSourcePlayer.clip = _jumpAudioClip;
+                _audioSourcePlayer.Play(1);
                 if (isOnRoof)
                 {
                     rb.AddForce(new Vector2(0f, -jumpForce), ForceMode2D.Impulse);

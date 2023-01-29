@@ -11,6 +11,9 @@ public class GunController : MonoBehaviour
     private float lastShotTime;
     public Transform bulletOriginPoint;
     public GameObject pistol;
+    public AudioSource _audioSourcePlayer;
+    public AudioClip _laserShotClip;
+        
 
     void Start()
     {
@@ -29,6 +32,8 @@ public class GunController : MonoBehaviour
         {
             if (Time.time - lastShotTime > cooldown)
             {
+                _audioSourcePlayer.clip = _laserShotClip;
+                _audioSourcePlayer.Play(1);
                 pistol.gameObject.SetActive(true);
                 Invoke("DisablePistol", .5f);
                 lastShotTime = Time.time;
@@ -37,6 +42,7 @@ public class GunController : MonoBehaviour
                 {
                     bullet.transform.position = new Vector3(bulletOriginPoint.transform.position.x, bulletOriginPoint.transform.position.y, bulletOriginPoint.transform.position.z);
                     bullet.SetActive(true);
+                    _audioSourcePlayer.Play(1);
                 }
             }
         }
