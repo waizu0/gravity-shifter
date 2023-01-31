@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
-    public float doubleJumpForce = 2.5f;
-    public bool canDoubleJump = false;
 
     private Rigidbody2D rb;
     private bool isJumping = false;
@@ -97,18 +95,7 @@ public class PlayerController : MonoBehaviour
                 }
                 isJumping = true;
             }
-            else if (canDoubleJump)
-            {
-                if (isOnRoof)
-                {
-                    rb.AddForce(new Vector2(0f, -doubleJumpForce), ForceMode2D.Impulse);
-                }
-                else
-                {
-                    rb.AddForce(new Vector2(0f, doubleJumpForce), ForceMode2D.Impulse);
-                }
-                canDoubleJump = false;
-            }
+           
         }
 
         // Check if the "Z" button is pressed
@@ -162,12 +149,10 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground") && !isOnRoof)
         {
             isJumping = false;
-            canDoubleJump = true;
         }
         else if (collision.gameObject.CompareTag("Roof") && isOnRoof)
         {
             isJumping = false;
-            canDoubleJump = true;
         }
 
         if (collision.gameObject.tag == "Prop")
@@ -180,17 +165,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Prop")
-        {
-            if (transform.position.y > collision.gameObject.transform.position.y)
-            {
-                Rigidbody2D propRb = collision.gameObject.GetComponent<Rigidbody2D>();
-                propRb.constraints = RigidbodyConstraints2D.FreezeAll;
-            }
-        }
-    }
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Prop")
+    //    {
+    //        if (transform.position.y > collision.gameObject.transform.position.y)
+    //        {
+    //            Rigidbody2D propRb = collision.gameObject.GetComponent<Rigidbody2D>();
+    //            propRb.constraints = RigidbodyConstraints2D.FreezeAll;
+    //        }
+    //    }
+    //}
 
     public void Die()
     {

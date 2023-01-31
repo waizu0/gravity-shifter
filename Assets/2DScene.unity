@@ -711,8 +711,8 @@ MonoBehaviour:
   _camAnimator: {fileID: 2144187529}
   cam: {fileID: 2144187526}
   blood: {fileID: 49479054364712677, guid: ea37827bc4023d644b3c2bf8ec8cc5e9, type: 3}
-  _audioSourcePlayer: {fileID: 1420047721}
-  _jumpAudioClip: {fileID: 8300000, guid: a344112505f1caf40846876f2ae2dee1, type: 3}
+  dust: {fileID: 1715570213}
+  isMoving: 0
 --- !u!95 &1420047719
 Animator:
   serializedVersion: 3
@@ -744,7 +744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fbad8554b0e4634eb50beac92ababec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 576808026800238683, guid: 27416986a84e15a4184735bde7e12bcd, type: 3}
+  bulletPrefab: {fileID: 6440489272847949855, guid: 27416986a84e15a4184735bde7e12bcd, type: 3}
   cooldown: 0.5
   poolSize: 8
   bulletOriginPoint: {fileID: 1522897648}
@@ -1167,7 +1167,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1715570210}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 0.1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -1232,7 +1232,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -1242,7 +1242,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 0.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1993,7 +1993,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 100
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -3196,7 +3196,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    inWorldSpace: 0
+    inWorldSpace: 1
   InheritVelocityModule:
     enabled: 0
     m_Mode: 0

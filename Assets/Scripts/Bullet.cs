@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
     public int damage;
     public Camera cam;
     Renderer renderer;
+    public ParticleSystem sparkle;
 
     private void Awake()
     {
@@ -60,7 +61,12 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "Wall")
         {
-            disableMe();
+            PlaySparkle();
         }
+    }
+
+    public void PlaySparkle()
+    {
+        disableMe();
     }
 }
