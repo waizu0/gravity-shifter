@@ -128,16 +128,6 @@ public class PlayerController : MonoBehaviour
         {
             this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
         }
-
-        //if (Input.GetKeyDown(KeyCode.A) && isOnRoof)
-        //{
-        //    this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
-        //}
-        //if (Input.GetKeyDown(KeyCode.D) && isOnRoof)
-        //{
-        //    this.transform.localScale = new Vector3(-1, this.transform.localScale.y, this.transform.localScale.z);
-        //}
-
         if (Input.GetKeyDown(KeyCode.C))
         {
             Die();
@@ -154,28 +144,11 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = false;
         }
-
-        if (collision.gameObject.tag == "Prop")
+        if (collision.gameObject.tag == "Roof" && Physics2D.OverlapCircle(transform.position, 0.5f, LayerMask.GetMask("Prop")))
         {
-            if (transform.position.y > collision.gameObject.transform.position.y)
-            {
-                Rigidbody2D propRb = collision.gameObject.GetComponent<Rigidbody2D>();
-                propRb.constraints = RigidbodyConstraints2D.None;
-            }
+            Die();
         }
     }
-
-    //private void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Prop")
-    //    {
-    //        if (transform.position.y > collision.gameObject.transform.position.y)
-    //        {
-    //            Rigidbody2D propRb = collision.gameObject.GetComponent<Rigidbody2D>();
-    //            propRb.constraints = RigidbodyConstraints2D.FreezeAll;
-    //        }
-    //    }
-    //}
 
     public void Die()
     {
