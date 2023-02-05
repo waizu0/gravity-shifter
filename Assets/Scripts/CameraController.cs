@@ -24,11 +24,5 @@ public class CameraController : MonoBehaviour
         transform.position = smoothedPosition;
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            this.transform.position = originalPos;
-        }
-    }
+
 }
