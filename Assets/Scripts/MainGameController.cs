@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainGameController : MonoBehaviour
 {
@@ -11,5 +12,13 @@ public class MainGameController : MonoBehaviour
     {
         _transitionOverlay.SetActive(true);
         Time.timeScale = 0;
+    }
+
+    public void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }
