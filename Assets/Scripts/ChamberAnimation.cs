@@ -17,8 +17,11 @@ public class ChamberAnimation : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _anim.Play("ChamberOn", -1, 0f);
-        player.GetComponent<PlayerController>().moveSpeed = 0;
+        if (collision.gameObject.tag == "Player")
+        {
+            _anim.Play("ChamberOn", -1, 0f);
+            player.GetComponent<PlayerController>().moveSpeed = 0;
+        }
     }
 
     public void DisablePlayer()
