@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ButtonEvents : MonoBehaviour
 {
-    public bool _openDoorEvent;
+    public bool _openDoorEvent, shootButtonEvent;
     public bool _pressing;
     public Animator _doorAnimator;
 
@@ -23,11 +23,26 @@ public class ButtonEvents : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Prop")
+
+        if (_openDoorEvent)
         {
-            _pressing = true;
-            _doorAnimator.Play("MetalDoorOn", -1, 0f);
-            _renderer.sprite = _pressingStateButton;
+            if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Prop")
+            {
+                _pressing = true;
+                _doorAnimator.Play("LaserDoor", -1, 0f);
+                _renderer.sprite = _pressingStateButton;
+            }
+        }
+
+        if(shootButtonEvent)
+        {
+            if (collision.gameObject.tag == "Laser")
+            {
+                _pressing = true;
+                _doorAnimator.Play("LaserDoorOff", -1, 0f);
+                _renderer.sprite = _pressingStateButton;
+                collision.gameObject.SetActive(false);
+            }
         }
 
     }
@@ -38,7 +53,7 @@ public class ButtonEvents : MonoBehaviour
         if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Prop")
         {
             _pressing = false;
-            _doorAnimator.Play("MetalDoorOff", -1, 0f);
+            _doorAnimator.Play("LaserDoorOff", -1, 0f);
             _renderer.sprite = _normalStateButton;
         }
     }
