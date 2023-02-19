@@ -29,7 +29,8 @@ public class ButtonEvents : MonoBehaviour
             if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Prop")
             {
                 _pressing = true;
-                _doorAnimator.Play("LaserDoor", -1, 0f);
+                _doorAnimator.StopPlayback();
+                _doorAnimator.Play("LaserDoorOff", -1, 0f);
                 _renderer.sprite = _pressingStateButton;
             }
         }
@@ -50,11 +51,17 @@ public class ButtonEvents : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Prop")
+
+        if (_openDoorEvent)
         {
-            _pressing = false;
-            _doorAnimator.Play("LaserDoorOff", -1, 0f);
-            _renderer.sprite = _normalStateButton;
+
+            if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Prop")
+            {
+                _pressing = false;
+                _doorAnimator.StopPlayback();
+                _doorAnimator.Play("LaserDoor", -1, 0f);
+                _renderer.sprite = _normalStateButton;
+            }
         }
     }
 }
