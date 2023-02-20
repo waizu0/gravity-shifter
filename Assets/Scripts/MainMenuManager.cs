@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -10,10 +12,22 @@ public class MainMenuManager : MonoBehaviour
     public TextMeshProUGUI _pressAnyButtonText;
     public string _startGameScene;
 
+    public AudioMixer audioMixer;
+    public Toggle fullscreenToggle;
+    public Slider volumeSlider;
+
     private void Start()
     {
         // Start the coroutine to blink the text
         StartCoroutine("BlinkText");
+        if (Screen.fullScreen)
+        {
+            fullscreenToggle.isOn = true;
+        }
+        else
+        {
+            fullscreenToggle.isOn = false;
+        }
     }
 
     // Coroutine to blink the text every 0.7 seconds
@@ -40,5 +54,16 @@ public class MainMenuManager : MonoBehaviour
         Application.Quit(); //Quits the game lol
     }
 
- 
+    // Toggle fullscreen mode
+    public void SetFullscreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
+        fullscreenToggle.isOn = isFullscreen; // Update the toggle's state to match the current fullscreen mode
+    }
+
+    // Set the volume level using a slider
+    public void SetVolume(float volume)
+    {
+        audioMixer.SetFloat("volume", volume); // Convert the slider value to a logarithmic scale suitable for the AudioMixer
+    }
 }

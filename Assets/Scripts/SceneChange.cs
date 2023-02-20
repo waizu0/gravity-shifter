@@ -9,6 +9,10 @@ public class SceneChange : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene(_startGameScene);
-        Time.timeScale = 0;
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

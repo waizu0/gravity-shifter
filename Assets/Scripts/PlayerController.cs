@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem dust;
     bool _isPlayingDust;
     public bool isMoving;
+    public GameObject deathTransition;
 
 
 
@@ -153,6 +154,7 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         this.gameObject.SetActive(false);
+        deathTransition.SetActive(true);
 
         GameObject bloodInstance = Instantiate(blood, transform.position, Quaternion.identity);
 
