@@ -7,6 +7,7 @@ public class ChamberAnimation : MonoBehaviour
     Animator _anim;
     public GameObject player;
     private MainGameController _MGC; // Reference to the Main Game Controller script component
+    public GameObject transition;
 
 
     private void Awake()
@@ -29,6 +30,11 @@ public class ChamberAnimation : MonoBehaviour
         player.SetActive(false);
         _MGC.FinishLevel(); // Call the FinishLevel function in the MainGameController script
 
+    }
+
+    public void Transition()
+    {
+        transition.SetActive(true);
     }
 
 }
