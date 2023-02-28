@@ -137,17 +137,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") && !isOnRoof)
+        if (collision.gameObject.CompareTag("Ground") && !isOnRoof || collision.gameObject.CompareTag("Prop") && !isOnRoof )
         {
             isJumping = false;
         }
-        else if (collision.gameObject.CompareTag("Roof") && isOnRoof)
+        else if (collision.gameObject.CompareTag("Roof") && isOnRoof || collision.gameObject.CompareTag("Prop") && isOnRoof)
         {
             isJumping = false;
-        }
-        if (collision.gameObject.tag == "Roof" && Physics2D.OverlapCircle(transform.position, 0.5f, LayerMask.GetMask("Prop")))
-        {
-            Die();
         }
     }
 
