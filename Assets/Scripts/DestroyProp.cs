@@ -4,29 +4,43 @@ using UnityEngine;
 
 public class DestroyProp : MonoBehaviour
 {
-    public Animator _doorAnimator;
+    // Reference to the animator component of the door
+    public Animator doorAnimator;
+
+    // Sprite to show when the prop is destroyed
     public Sprite destroyedState;
-    SpriteRenderer renderer;
-    public BoxCollider2D buttonToDisable;
+
+    // Reference to the sprite renderer component of the prop
+    private SpriteRenderer propRenderer;
+
+    // Reference to the button collider that needs to be disabled when the prop is destroyed
+    public BoxCollider2D buttonColliderToDisable;
 
     private void Awake()
     {
-        renderer = GetComponent<SpriteRenderer>();
+        // Initialize the sprite renderer reference
+        propRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Laser")
+        // Check if the object colliding with the prop has the "Laser" tag and the prop is not already destroyed
+        if (collision.CompareTag("Laser") && propRenderer.sprite != destroyedState)
         {
-            
-            buttonToDisable.enabled = false;
-            DestroyPropVoid();
+            // Disable the button collider
+            buttonColliderToDisable.enabled = false;
+
+            // Call the method to destroy the prop
+            DestroyPropAndDisableButton();
         }
     }
 
-    public void DestroyPropVoid()
+    public void DestroyPropAndDisableButton()
     {
-        _doorAnimator.Play("LaserDoorOff", -1, 0f);
-        renderer.sprite = destroyedState;
+        // Play the "LaserDoorOff" animation of the door animator from the beginning
+        doorAnimator.Play("LaserDoorOff", -1, 0f);
+
+        // Change the sprite of the prop to the destroyed state sprite
+        propRenderer.sprite = destroyedState;
     }
 }

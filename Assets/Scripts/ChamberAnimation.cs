@@ -20,14 +20,16 @@ public class ChamberAnimation : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            _anim.Play("ChamberOn", -1, 0f);
-            player.GetComponent<PlayerController>().moveSpeed = 0;
+            if (player.GetComponent<PlayerController>().isOnRoof == false)
+            {
+                player.SetActive(false);
+                _anim.Play("ChamberOn", -1, 0f);
+            }
         }
     }
 
     public void DisablePlayer()
     {
-        player.SetActive(false);
         _MGC.FinishLevel(); // Call the FinishLevel function in the MainGameController script
 
     }

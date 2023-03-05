@@ -2,50 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// PropManager Class definition
 public class PropManager : MonoBehaviour
 {
-    // Reference to Rigidbody2D component
-    Rigidbody2D rb;
-    // Variable to store starting rotation of the object
-    Quaternion startingRot;
+    Rigidbody2D rb; // Reference to Rigidbody2D component
+    Quaternion startingRot; // Store starting rotation of the object
+    GameObject Player; // Reference to player GameObject
+    BoxCollider2D col; // BoxCollider2D component
+    bool collidingWithPlayer; // Flag for collision with player
+    public bool onAir = false;
 
-    GameObject Player;
-
-    // Awake function is called before Start function
     private void Awake()
     {
-        // Get reference to Rigidbody2D component on this object
-        rb = GetComponent<Rigidbody2D>();
-        // Store the starting rotation of the object
-        startingRot = transform.rotation;
-        Player = GameObject.Find("Player");
+        rb = GetComponent<Rigidbody2D>(); // Get reference to Rigidbody2D component
+        startingRot = transform.rotation; // Store the starting rotation of the object
+        Player = GameObject.Find("Player"); // Find the player GameObject
+        col = GetComponent<BoxCollider2D>(); // Get reference to the BoxCollider2D component
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && collision.gameObject.transform.position.y != this.transform.position.y)
+        if (this.gameObject.tag == "Prop")
         {
-            if(collision.gameObject.transform.position.y != this.transform.position.y)
-            // Remove constraints on the object
-            rb.constraints = RigidbodyConstraints2D.None;
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                rb.constraints = RigidbodyConstraints2D.None; // Remove constraints on the object
+                collidingWithPlayer = true; // Set flag for collision with player
+            }
 
-       
+            if (collision.gameObject.CompareTag("Ground") && !collidingWithPlayer  || collision.gameObject.CompareTag("Roof") && !collidingWithPlayer)
+            {
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation; // Constrain rotation of the object
+                rb.constraints = RigidbodyConstraints2D.FreezePositionY; // Constrain position along the Y axis
+                onAir = false;
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collidingWithPlayer = false; // Set flag for no collision with player
         }
 
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Roof"))
+        if(collision.gameObject.tag != "Ground" || collision.gameObject.tag != "Roof")
         {
-            // Constrain rotation of the object
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            // Constrain position along the Y axis
-            rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+            onAir = true;
         }
     }
 
     private void Update()
     {
-        // Reset the rotation of the object to its starting rotation
-        transform.rotation = startingRot;
+        transform.rotation = startingRot; // Reset the rotation of the object to its starting rotation
 
+        if (onAir)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
     }
 }

@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public GameObject blood;
     public ParticleSystem dust;
     bool _isPlayingDust;
+    public bool canInteract = true;
     public bool isMoving;
     public GameObject deathTransition;
 
@@ -37,102 +38,105 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        isMoving = Mathf.Abs(rb.velocity.x) > 0.1f;
 
-        Vector3 screenPos = cam.WorldToScreenPoint(transform.position);
-        if (Input.mousePosition.x < screenPos.x)
+        if (canInteract)
         {
-            this.transform.localScale = new Vector3(-1, this.transform.localScale.y, this.transform.localScale.z);
-        }
-        else
-        {
-            this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
-        }
 
-        if (isMoving)
-        {
-            if (!_isPlayingDust)
+            isMoving = Mathf.Abs(rb.velocity.x) > 0.1f;
+
+            Vector3 screenPos = cam.WorldToScreenPoint(transform.position);
+            if (Input.mousePosition.x < screenPos.x)
             {
-                dust.Play();
-                _isPlayingDust = true;
-            }
-        }
-        else if (_isPlayingDust)
-        {
-            dust.Stop();
-            _isPlayingDust = false;
-        }
-
-
-        oldPos = transform.position.x;
-
-        float moveX = Input.GetAxis("Horizontal");
-
-        thisAnim.SetBool("Jumping", isJumping);
-        bool isWalking = Mathf.Abs(moveX) > 0.1f && Mathf.Abs(rb.velocity.x) > 0.1f;
-        thisAnim.SetBool("Walking", isWalking);
-
-
-
-        //if (isOnRoof)
-        //{
-        //    moveX = moveX * -1;
-        //}
-        rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
-
-        // Check if the jump button is pressed
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (!isJumping)
-            {
-                dust.Play();
-                if (isOnRoof)
-                {
-                    rb.AddForce(new Vector2(0f, -jumpForce), ForceMode2D.Impulse);
-                }
-                else
-                {
-                    rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-                }
-                isJumping = true;
-            }
-           
-        }
-
-        // Check if the "Z" button is pressed
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            if (!isOnRoof)
-            {
-                // Change gravity and switch to roof
-                Physics2D.gravity = new Vector2(0f, 9.8f * _gravityChangeSpeed);
-                transform.Rotate(180f, 0f, 0f);
-                isOnRoof = true;
-                _camAnimator.Play("ShiftRoof", -1, 0f);
+                this.transform.localScale = new Vector3(-1, this.transform.localScale.y, this.transform.localScale.z);
             }
             else
             {
-                // Change gravity and switch to ground
-                Physics2D.gravity = new Vector2(0f, -9.8f * _gravityChangeSpeed);
-                transform.Rotate(180f, 0f, 0f);
-                isOnRoof = false;
-                _camAnimator.Play("ShiftFloor", -1, 0f);
+                this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
+            }
+
+            if (isMoving)
+            {
+                if (!_isPlayingDust)
+                {
+                    dust.Play();
+                    _isPlayingDust = true;
+                }
+            }
+            else if (_isPlayingDust)
+            {
+                dust.Stop();
+                _isPlayingDust = false;
+            }
+
+
+            oldPos = transform.position.x;
+
+            float moveX = Input.GetAxis("Horizontal");
+
+            thisAnim.SetBool("Jumping", isJumping);
+            bool isWalking = Mathf.Abs(moveX) > 0.1f && Mathf.Abs(rb.velocity.x) > 0.1f;
+            thisAnim.SetBool("Walking", isWalking);
+
+
+
+            //if (isOnRoof)
+            //{
+            //    moveX = moveX * -1;
+            //}
+            rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
+
+            // Check if the jump button is pressed
+            if (Input.GetButtonDown("Jump"))
+            {
+                if (!isJumping)
+                {
+                    dust.Play();
+                    if (isOnRoof)
+                    {
+                        rb.AddForce(new Vector2(0f, -jumpForce), ForceMode2D.Impulse);
+                    }
+                    else
+                    {
+                        rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+                    }
+                    isJumping = true;
+                }
 
             }
+
+            // Check if the "Z" button is pressed
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                if (!isOnRoof)
+                {
+                    // Change gravity and switch to roof
+                    Physics2D.gravity = new Vector2(0f, 9.8f * _gravityChangeSpeed);
+                    transform.Rotate(180f, 0f, 0f);
+                    isOnRoof = true;
+                    _camAnimator.Play("ShiftRoof", -1, 0f);
+                }
+                else
+                {
+                    // Change gravity and switch to ground
+                    Physics2D.gravity = new Vector2(0f, -9.8f * _gravityChangeSpeed);
+                    transform.Rotate(180f, 0f, 0f);
+                    isOnRoof = false;
+                    _camAnimator.Play("ShiftFloor", -1, 0f);
+
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.A) && !isOnRoof)
+            {
+                this.transform.localScale = new Vector3(-1, this.transform.localScale.y, this.transform.localScale.z);
+            }
+            if (Input.GetKeyDown(KeyCode.D) && !isOnRoof)
+            {
+                this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
+            }
+
         }
 
-        if (Input.GetKeyDown(KeyCode.A) && !isOnRoof)
-        {
-            this.transform.localScale = new Vector3(-1, this.transform.localScale.y, this.transform.localScale.z);
-        }
-        if (Input.GetKeyDown(KeyCode.D) && !isOnRoof)
-        {
-            this.transform.localScale = new Vector3(1, this.transform.localScale.y, this.transform.localScale.z);
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            Die();
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -144,6 +148,10 @@ public class PlayerController : MonoBehaviour
         else if (collision.gameObject.CompareTag("Roof") && isOnRoof || collision.gameObject.CompareTag("Prop") && isOnRoof)
         {
             isJumping = false;
+        }
+        if (collision.gameObject.tag == "EnemyBullet")
+        {
+            Die();
         }
     }
 

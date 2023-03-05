@@ -9,8 +9,7 @@ public class PauseMenuManager : MonoBehaviour
 
     public void Continue()
     {
-        this.gameObject.SetActive(false);
-        Time.timeScale = 1;
+        player.Unpause();
     }
 
     public void Quit()

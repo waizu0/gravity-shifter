@@ -34,18 +34,28 @@ public class MainGameController : MonoBehaviour
         {
             if (pause.activeSelf)
             {
-                pause.SetActive(false);
-                player.enabled = true;
-                gun.enabled = true;
-                Time.timeScale = 1;
+                Unpause();
             }
             else
             {
-                pause.SetActive(true);
-                player.enabled = false;
-                gun.enabled = false;
-                Time.timeScale = 0;
+                Pause();
             }
         }
+    }
+
+    public void Pause()
+    {
+        pause.SetActive(true);
+        gun.enabled = false;
+        player.canInteract = false;
+        Time.timeScale = 0;
+    }
+
+    public void Unpause()
+    {
+        pause.SetActive(false);
+        gun.enabled = true;
+        player.canInteract = true;
+        Time.timeScale = 1;
     }
 }
